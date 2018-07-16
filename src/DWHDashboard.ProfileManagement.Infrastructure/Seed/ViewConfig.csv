@@ -1,0 +1,9 @@
+Id|Section|Display|Containing|NotContaining|Rank
+70a4b42a-584d-11e7-907b-a6006ad3dba0|*|*|||0.1
+f7cf904e-584a-11e7-907b-a6006ad3dba0|Published/Archived|General|dashboard^general|live|1.0
+f7cf92c4-584a-11e7-907b-a6006ad3dba0|Published/Archived|Cohort|dashboard^cohort|live|2.0
+f7cf9652-584a-11e7-907b-a6006ad3dba0|Published/Archived|COP|dashboard^cop|live|3.0
+f7cf9742-584a-11e7-907b-a6006ad3dba0|Published/Archived|GAPR|dashboard^gapr|live|4.0
+f7cf9814-584a-11e7-907b-a6006ad3dba0|Published/Archived|EMR Implementation|dashboard^implementation|live|5.0
+f7cf98e6-584a-11e7-907b-a6006ad3dba0|Live|Live|dashboard^live||6.0
+3669d0a4-58b3-11e7-907b-a6006ad3dba0|Custom|Charts||dashboard^stripe^img|7.0

@@ -1,0 +1,14 @@
+Id|UserName|Email|Title|FullName|OrganizationId|Designation|ReasonForAccessing|UserType|ImpersonatorId|EmailConfirmed|UserConfirmed|Password
+891fd5c8-5c3c-11e7-907b-a6006ad3dba0|steward1|koskedk@gmail.com|1|steward1 steward1|490d8b72-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|2|ce7b558e-160f-11e7-93ae-92361f002671|1|1|steward
+891fe496-5c3c-11e7-907b-a6006ad3dba0|steward2|koskedk@live.com|2|steward2 steward2|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|2|ce7b558e-160f-11e7-93ae-92361f002671|1|1|steward
+891fdb72-5c3c-11e7-907b-a6006ad3dba0|user12|user12@gmail.com|1|user12 user12|490d8b72-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|3|ce7b558e-160f-11e7-93ae-92361f002671|1|1|useruser
+891fdca8-5c3c-11e7-907b-a6006ad3dba0|user13|user13@gmail.com|4|user13 user13|490d8b72-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|4|ce7b558e-160f-11e7-93ae-92361f002671|1|0|useruser
+891fddac-5c3c-11e7-907b-a6006ad3dba0|user14|user14@gmail.com|1|user14 user14|490d8b72-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|4|ce7b558e-160f-11e7-93ae-92361f002671|1|0|useruser
+891fdeb0-5c3c-11e7-907b-a6006ad3dba0|user15|user15@gmail.com|5|user15 user15|490d8b72-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|4|ce7b558e-160f-11e7-93ae-92361f002671|1|0|useruser
+891fe360-5c3c-11e7-907b-a6006ad3dba0|user11|user11@gmail.com|3|user11 user11|490d8b72-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|3|ce7b558e-160f-11e7-93ae-92361f002671|1|1|useruser
+891fe568-5c3c-11e7-907b-a6006ad3dba0|user21|user21@gmail.com|4|user21 user21|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|4|ce7b558e-160f-11e7-93ae-92361f002671|1|0|useruser
+891fe630-5c3c-11e7-907b-a6006ad3dba0|user22|user22@gmail.com|1|user22 user22|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|3|ce7b558e-160f-11e7-93ae-92361f002671|1|1|useruser
+891fe70c-5c3c-11e7-907b-a6006ad3dba0|user23|user23@gmail.com|3|user23 user23|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|4|ce7b558e-160f-11e7-93ae-92361f002671|1|0|useruser
+891fe7d4-5c3c-11e7-907b-a6006ad3dba0|user24|user24@gmail.com|4|user24 user24|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|4|ce7b558e-160f-11e7-93ae-92361f002671|1|0|useruser
+891feaea-5c3c-11e7-907b-a6006ad3dba0|user25|user25@gmail.com|3|2user25 user25|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|3|ce7b558e-160f-11e7-93ae-92361f002671|1|1|useruser
+618bdd68-5ca0-11e7-907b-a6006ad3dba0|super|super@gmail.com|1|super user|490d8de8-5c2f-11e7-907b-a6006ad3dba0|Default|DEfault|1|ce7b558e-160f-11e7-93ae-92361f002671|1|1|superuser
