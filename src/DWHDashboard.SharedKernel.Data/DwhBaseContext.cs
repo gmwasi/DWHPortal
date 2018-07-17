@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions.Internal;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using DWHDashboard.ProfileManagement.Core.Model;
 using Microsoft.EntityFrameworkCore;
 

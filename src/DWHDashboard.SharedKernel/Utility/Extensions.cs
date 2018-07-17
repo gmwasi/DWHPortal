@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace DWHDashboard.SharedKernel.Utility
 {
-    public static class Extentions
+    public static class Extensions
     {
         /// <summary>
         /// Determines if a nullable Guid (Guid?) is null or Guid.Empty
