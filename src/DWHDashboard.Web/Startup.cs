@@ -27,6 +27,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using AutoMapper;
+using FluentValidation.AspNetCore;
 
 namespace DWHDashboard.Web
 {
@@ -147,6 +149,8 @@ namespace DWHDashboard.Web
             builder = new IdentityBuilder(builder.UserType, typeof(IdentityRole), builder.Services);
             builder.AddEntityFrameworkStores<DwhDashboardContext>().AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
             /*var container = new Container();
             container.Populate(services);
             ServiceProvider = container.GetInstance<IServiceProvider>();*/

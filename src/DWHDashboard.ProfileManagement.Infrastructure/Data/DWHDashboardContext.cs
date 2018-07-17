@@ -1,5 +1,4 @@
-﻿using System.Data.Common;
-using DWHDashboard.ProfileManagement.Core.Model;
+﻿using DWHDashboard.ProfileManagement.Core.Model;
 using DWHDashboard.SharedKernel.Data;
 using Microsoft.EntityFrameworkCore;
 

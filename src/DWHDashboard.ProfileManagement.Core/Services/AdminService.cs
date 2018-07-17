@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using DWHDashboard.ProfileManagement.Core.Helpers;
 using DWHDashboard.ProfileManagement.Core.Interfaces;
 using DWHDashboard.SharedKernel.Model.Tableau;
 using DWHDashboard.SharedKernel.Model.Tableau.SignIn;
@@ -37,14 +38,12 @@ namespace DWHDashboard.ProfileManagement.Core.Services
             _client = GetHttpClient();
             var signInRequest = SignInRequest.Create(_adminUser, _adminPassword, site);
 
-            //todo migration
-
-            /*var response = await _client.PostAsync("auth/signin", signInRequest);
+            var response = await _client.PostAsJsonAsync("auth/signin", signInRequest);
             response.EnsureSuccessStatusCode();
 
-            string content = await response.Content.ReadAsStringAsync();*/
+            string content = await response.Content.ReadAsStringAsync();
 
-            string content = "";
+            //string content = "";
 
              var signInResponse = JsonConvert.DeserializeObject<SignInResponse>(content);
 
