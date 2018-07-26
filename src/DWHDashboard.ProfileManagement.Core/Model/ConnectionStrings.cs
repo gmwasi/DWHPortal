@@ -2,15 +2,17 @@ namespace DWHDashboard.ProfileManagement.Core.Model
 {
     public class ConnectionStrings
     {
-        public string DwapiConnection { get; set; }
+        public string DwhDashboardConnection { get; set; }
+        public string DwhDataConnection { get; set; }
 
         public ConnectionStrings()
         {
         }
 
-        public ConnectionStrings(string dwapiConnection)
+        public ConnectionStrings(string dwhDashboardConnection, string dwhDataConnection)
         {
-            DwapiConnection = dwapiConnection;
+            DwhDashboardConnection = dwhDashboardConnection;
+            DwhDataConnection = dwhDataConnection;
         }
     }
 }

@@ -28,6 +28,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using AutoMapper;
+using DWHDashboard.DashboardData.Data;
 using FluentValidation.AspNetCore;
 
 namespace DWHDashboard.Web
@@ -75,11 +76,13 @@ namespace DWHDashboard.Web
 
 
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
-            var connectionString = Startup.Configuration["ConnectionStrings:DwhDashboardConnection"];
+            var dashboardConnectionString = Startup.Configuration["ConnectionStrings:DwhDashboardConnection"];
+            var dataConnectionString = Startup.Configuration["ConnectionStrings:DwhDataConnection"];
 
-            services.AddDbContext<DwhDashboardContext>(b => b.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(DwhDashboardContext).GetTypeInfo().Assembly.GetName().Name)));
-
+            services.AddDbContext<DwhDashboardContext>(b => b.UseSqlServer(dashboardConnectionString, x => x.MigrationsAssembly(typeof(DwhDashboardContext).GetTypeInfo().Assembly.GetName().Name)));
+            services.AddDbContext<DwhDataContext>(b => b.UseSqlServer(dataConnectionString, x => x.MigrationsAssembly(typeof(DwhDataContext).GetTypeInfo().Assembly.GetName().Name)));
             services.AddTransient<DwhDashboardContext>();
+            services.AddTransient<DwhDataContext>();
             services.AddScoped<IImpersonatorRepository, ImpersonatorRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<ITabViewRepository, TabViewRepository>();

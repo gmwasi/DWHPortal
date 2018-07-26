@@ -7,23 +7,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.Web", "DWHDash
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SharedKernel", "SharedKernel", "{523E2F36-D5D8-4DBA-85ED-C5B479CC4A17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.SharedKernel", "DWHDashboard.SharedKernel\DWHDashboard.SharedKernel.csproj", "{3E501AA9-75CF-44CE-A79F-B6296BE8C4F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.SharedKernel", "DWHDashboard.SharedKernel\DWHDashboard.SharedKernel.csproj", "{3E501AA9-75CF-44CE-A79F-B6296BE8C4F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.SharedKernel.Data", "DWHDashboard.SharedKernel.Data\DWHDashboard.SharedKernel.Data.csproj", "{BA956DB0-3013-4764-9E43-121821422311}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.SharedKernel.Data", "DWHDashboard.SharedKernel.Data\DWHDashboard.SharedKernel.Data.csproj", "{BA956DB0-3013-4764-9E43-121821422311}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.SharedKernel.Tests", "DWHDashboard.SharedKernel.Tests\DWHDashboard.SharedKernel.Tests.csproj", "{B82F1A35-FA85-4CB7-A2FB-69498BAF4EEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.SharedKernel.Tests", "DWHDashboard.SharedKernel.Tests\DWHDashboard.SharedKernel.Tests.csproj", "{B82F1A35-FA85-4CB7-A2FB-69498BAF4EEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.SharedKernel.Data.Tests", "DWHDashboard.SharedKernel.Data.Tests\DWHDashboard.SharedKernel.Data.Tests.csproj", "{0CFE20B8-3B91-477D-983E-B085CBFC56BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.SharedKernel.Data.Tests", "DWHDashboard.SharedKernel.Data.Tests\DWHDashboard.SharedKernel.Data.Tests.csproj", "{0CFE20B8-3B91-477D-983E-B085CBFC56BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProfileManagement", "ProfileManagement", "{8EFB54DB-CF91-46A9-9F0E-D8DBF7364886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.ProfileManagement.Core.Tests", "DWHDashboard.ProfileManagement.Core.Tests\DWHDashboard.ProfileManagement.Core.Tests.csproj", "{D104CB82-6EDC-44BB-8B80-6344EA4010F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.ProfileManagement.Core.Tests", "DWHDashboard.ProfileManagement.Core.Tests\DWHDashboard.ProfileManagement.Core.Tests.csproj", "{D104CB82-6EDC-44BB-8B80-6344EA4010F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.ProfileManagement.Core.Infrastructure.Tests", "DWHDashboard.ProfileManagement.Core.Infrastructure.Tests\DWHDashboard.ProfileManagement.Core.Infrastructure.Tests.csproj", "{C5D7A92F-AABF-42EC-B316-3C7A86C4FA48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.ProfileManagement.Core.Infrastructure.Tests", "DWHDashboard.ProfileManagement.Core.Infrastructure.Tests\DWHDashboard.ProfileManagement.Core.Infrastructure.Tests.csproj", "{C5D7A92F-AABF-42EC-B316-3C7A86C4FA48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.ProfileManagement.Core", "DWHDashboard.ProfileManagement.Core\DWHDashboard.ProfileManagement.Core.csproj", "{5CE2544D-1DC8-4AB3-B325-E6E182E89175}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.ProfileManagement.Core", "DWHDashboard.ProfileManagement.Core\DWHDashboard.ProfileManagement.Core.csproj", "{5CE2544D-1DC8-4AB3-B325-E6E182E89175}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.ProfileManagement.Infrastructure", "DWHDashboard.ProfileManagement.Infrastructure\DWHDashboard.ProfileManagement.Infrastructure.csproj", "{E32D22BA-D4A8-4ED4-82B0-08FD371A83F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DWHDashboard.ProfileManagement.Infrastructure", "DWHDashboard.ProfileManagement.Infrastructure\DWHDashboard.ProfileManagement.Infrastructure.csproj", "{E32D22BA-D4A8-4ED4-82B0-08FD371A83F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.DashboardData", "DWHDashboard.DashboardData\DWHDashboard.DashboardData.csproj", "{B41E055E-CF71-4AFB-ACCE-0F836822077C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.DashboardData.Tests", "DWHDashboard.DashboardData.Tests\DWHDashboard.DashboardData.Tests.csproj", "{0EAA7625-D9B3-41FC-98BB-50AB03E46FFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DWHDashboard.Web.Tests", "DWHDashboard.Web.Tests\DWHDashboard.Web.Tests.csproj", "{71198511-0367-4639-9A3B-8B0312362B5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +73,18 @@ Global
 		{E32D22BA-D4A8-4ED4-82B0-08FD371A83F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E32D22BA-D4A8-4ED4-82B0-08FD371A83F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E32D22BA-D4A8-4ED4-82B0-08FD371A83F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B41E055E-CF71-4AFB-ACCE-0F836822077C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B41E055E-CF71-4AFB-ACCE-0F836822077C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B41E055E-CF71-4AFB-ACCE-0F836822077C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B41E055E-CF71-4AFB-ACCE-0F836822077C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EAA7625-D9B3-41FC-98BB-50AB03E46FFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EAA7625-D9B3-41FC-98BB-50AB03E46FFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EAA7625-D9B3-41FC-98BB-50AB03E46FFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EAA7625-D9B3-41FC-98BB-50AB03E46FFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71198511-0367-4639-9A3B-8B0312362B5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71198511-0367-4639-9A3B-8B0312362B5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71198511-0367-4639-9A3B-8B0312362B5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71198511-0367-4639-9A3B-8B0312362B5E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
