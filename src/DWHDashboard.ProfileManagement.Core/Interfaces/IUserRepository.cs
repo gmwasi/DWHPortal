@@ -11,7 +11,7 @@ namespace DWHDashboard.ProfileManagement.Core.Interfaces
         void AddOrUpdateTableaUser(User user);
         void UpdateProfile(User user);
         void DeleteUser(string id);
-        void CondirmUser(string id,UserConfirmation confirmed);
+        void ConfirmUser(string id,UserConfirmation confirmed);
         void MakeUser(string id);
         void MakeUserSteward(string id);
         IEnumerable<User> GetAllUsers();

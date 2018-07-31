@@ -6,9 +6,41 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="appsettings.json" />
+  </ItemGroup>
 
   <ItemGroup>
+    <Content Include="appsettings.json">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="7.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="NBuilder" Version="6.0.0" />
     <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\DWHDashboard.DashboardData\DWHDashboard.DashboardData.csproj" />
+    <ProjectReference Include="..\DWHDashboard.ProfileManagement.Core\DWHDashboard.ProfileManagement.Core.csproj" />
+    <ProjectReference Include="..\DWHDashboard.ProfileManagement.Infrastructure\DWHDashboard.ProfileManagement.Infrastructure.csproj" />
+    <ProjectReference Include="..\DWHDashboard.SharedKernel.Data.Tests\DWHDashboard.SharedKernel.Data.Tests.csproj" />
+    <ProjectReference Include="..\DWHDashboard.SharedKernel\DWHDashboard.SharedKernel.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer">
+      <HintPath>..\..\..\..\..\..\Users\mwasi\.nuget\packages\microsoft.entityframeworkcore.sqlserver\2.1.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

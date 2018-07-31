@@ -2,11 +2,15 @@
 
 namespace DWHDashboard.ProfileManagement.Core.Model
 {
-    public class UserPreference:Entity
+    public class UserPreference : Entity
     {
         public string UserName { get; set; }
-        PreferenceType PreferenceType { get; set; }
+        private PreferenceType PreferenceType { get; set; }
         public string Bundle { get; set; }
+
+        public UserPreference()
+        {
+        }
 
         private UserPreference(string userName, PreferenceType preferenceType, string bundle)
         {

@@ -19,13 +19,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="7.6.104" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.2" />
     <PackageReference Include="Serilog" Version="2.7.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DWHDashboard.DashboardData\DWHDashboard.DashboardData.csproj" />
     <ProjectReference Include="..\DWHDashboard.ProfileManagement.Core\DWHDashboard.ProfileManagement.Core.csproj" />
     <ProjectReference Include="..\DWHDashboard.ProfileManagement.Infrastructure\DWHDashboard.ProfileManagement.Infrastructure.csproj" />
     <ProjectReference Include="..\DWHDashboard.SharedKernel\DWHDashboard.SharedKernel.csproj" />

@@ -51,7 +51,7 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Repository
             Delete(userToDelete);
         }
 
-        public void CondirmUser(string id, UserConfirmation confirmed)
+        public void ConfirmUser(string id, UserConfirmation confirmed)
         {
             var userprofile = GetAll().FirstOrDefault(x => x.Id.ToLower() == id.ToLower());
 

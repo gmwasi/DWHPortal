@@ -7,7 +7,7 @@ namespace DWHDashboard.SharedKernel.Data
     public abstract class DwhBaseContext : IdentityDbContext<User>
     {
         
-        protected DwhBaseContext(DbContextOptions nameOrConnectionString) : base(nameOrConnectionString)
+        protected DwhBaseContext(DbContextOptions options) : base(options)
         {
         }
 

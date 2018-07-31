@@ -1,7 +1,6 @@
 ﻿using DWHDashboard.DashboardData.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using DWHDashboard.DashboardData.Data;
 

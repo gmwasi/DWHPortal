@@ -1,13 +1,13 @@
-﻿using System;
+﻿using DWHDashboard.SharedKernel.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DWHDashboard.SharedKernel.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace DWHDashboard.SharedKernel.Data.Repository
 {
-    public abstract class BaseRepository<T> :BaseReadOnlyRepository<T>,IRepository<T> where T : class 
+    public abstract class BaseRepository<T> : BaseReadOnlyRepository<T>, IRepository<T> where T : class
     {
         protected BaseRepository(DbContext context) : base(context)
         {
@@ -17,9 +17,10 @@ namespace DWHDashboard.SharedKernel.Data.Repository
         {
             DbSet.Add(entity);
         }
+
         public virtual void Create(IEnumerable<T> entities)
         {
-            if(null==entities)
+            if (null == entities)
                 return;
 
             entities.Select(e =>
@@ -52,13 +53,18 @@ namespace DWHDashboard.SharedKernel.Data.Repository
 
         public virtual void Delete(Guid id)
         {
-            var entityToDelete = FindByKey(id);
-            Delete(entityToDelete);
+            var entity = DbSet.Find(id);
+            Delete(entity);
         }
+
         public virtual void Delete(T entity)
         {
-            DbSet.Attach(entity);
-            DbSet.Remove(entity);
+            if (null != entity)
+            {
+                DbSet.Attach(entity);
+                DbSet.Remove(entity);
+                Save();
+            }
         }
 
         public virtual void Save()
@@ -72,4 +78,3 @@ namespace DWHDashboard.SharedKernel.Data.Repository
         }
     }
 }
-

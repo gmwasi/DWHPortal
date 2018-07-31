@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
+﻿using Dapper;
 using DWHDashboard.DashboardData.Data;
-using Dapper;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace DWHDashboard.DashboardData.Repository.Implementation
 {
     public class QueryRepository : IQueryRepository
     {
         private readonly DwhDataContext _dbContext;
+
         //todo Mwasi add error handling
         public QueryRepository(DwhDataContext dbContext)
         {
@@ -18,7 +17,7 @@ namespace DWHDashboard.DashboardData.Repository.Implementation
 
         public dynamic Result(string query)
         {
-            var result = _dbContext.Database.Connection.Query(query).ToList(); ;
+            var result = _dbContext.Database.GetDbConnection().Query(query).ToList();
             return result;
         }
     }

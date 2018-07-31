@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Reflection;
-using System.Text;
 using AngularASPNETCore2WebApiAuth.Extensions;
+using AutoMapper;
+using DWHDashboard.DashboardData.Data;
 using DWHDashboard.ProfileManagement.Core.Interfaces;
 using DWHDashboard.ProfileManagement.Core.Model;
 using DWHDashboard.ProfileManagement.Infrastructure.Data;
@@ -12,6 +9,7 @@ using DWHDashboard.Web.Auth;
 using DWHDashboard.Web.Custom;
 using DWHDashboard.Web.Helpers;
 using DWHDashboard.Web.Models;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
@@ -21,25 +19,27 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
-using AutoMapper;
-using DWHDashboard.DashboardData.Data;
-using FluentValidation.AspNetCore;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Reflection;
+using System.Text;
 
 namespace DWHDashboard.Web
 {
     public class Startup
     {
-
         public static IConfiguration Configuration;
         public static IServiceProvider ServiceProvider;
         private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
         private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
@@ -50,7 +50,6 @@ namespace DWHDashboard.Web
 
             Configuration = builder.Build();
         }
-
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -73,7 +72,6 @@ namespace DWHDashboard.Web
             services.AddMvc()
                 .AddMvcOptions(o => o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter()))
                 .AddJsonOptions(o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
 
             services.ConfigureWritable<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
             var dashboardConnectionString = Startup.Configuration["ConnectionStrings:DwhDashboardConnection"];
@@ -125,7 +123,6 @@ namespace DWHDashboard.Web
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(configureOptions =>
             {
                 configureOptions.ClaimsIssuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
@@ -196,7 +193,6 @@ namespace DWHDashboard.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-
 
             app.UseExceptionHandler(
                 builder =>

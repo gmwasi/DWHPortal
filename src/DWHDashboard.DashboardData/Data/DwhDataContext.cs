@@ -8,6 +8,7 @@ namespace DWHDashboard.DashboardData.Data
         public DwhDataContext(DbContextOptions<DwhDataContext> options) : base(options)
         {
         }
+
         public DbSet<DatimNewlyEnrolled> DatimNewlyEnrolleds { get; set; }
         public DbSet<DatimNewlyEnrolledBaselineCd4> DatimNewlyEnrolledBaselineCd4s { get; set; }
         public DbSet<ViralLoadMatrix> ViralLoadMatrices { get; set; }
