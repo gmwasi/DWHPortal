@@ -6,16 +6,6 @@
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="appsettings.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="7.1.1" />
@@ -34,13 +24,6 @@
     <ProjectReference Include="..\DWHDashboard.ProfileManagement.Infrastructure\DWHDashboard.ProfileManagement.Infrastructure.csproj" />
     <ProjectReference Include="..\DWHDashboard.SharedKernel.Data.Tests\DWHDashboard.SharedKernel.Data.Tests.csproj" />
     <ProjectReference Include="..\DWHDashboard.SharedKernel\DWHDashboard.SharedKernel.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer">
-      <HintPath>..\..\..\..\..\..\Users\mwasi\.nuget\packages\microsoft.entityframeworkcore.sqlserver\2.1.1\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

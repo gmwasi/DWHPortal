@@ -1,6 +1,7 @@
 ﻿using DWHDashboard.ProfileManagement.Core.Model;
 using DWHDashboard.SharedKernel.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DWHDashboard.ProfileManagement.Infrastructure.Data
 {
@@ -29,24 +30,27 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Data
 
         public DbSet<UserPreference> UserPreferences { get; set; }
 
-        /*protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<TableauWorkbook>()
                 .HasMany(c => c.TabViews)
-                .WithRequired()
+                .WithOne()
+                .IsRequired()
                 .HasForeignKey(f => new { f.TableauWorkbookId });
 
             modelBuilder.Entity<Organization>()
                 .HasMany(c => c.Views)
-                .WithRequired()
+                .WithOne()
+                .IsRequired()
                 .HasForeignKey(f => new { f.OrganisationId });
 
             modelBuilder.Entity<TableauView>()
                 .HasMany(c => c.TempOrgs)
-                .WithRequired()
+                .WithOne()
+                .IsRequired()
                 .HasForeignKey(f => new { f.TabViewId });
-        }*/
+        }
     }
 }

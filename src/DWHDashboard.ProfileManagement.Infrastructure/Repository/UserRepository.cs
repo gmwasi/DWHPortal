@@ -35,7 +35,7 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Repository
             var userprofile =GetAll().FirstOrDefault(x=>x.Id.ToLower()==user.Id.ToLower());
 
             if(null==userprofile)
-                throw new ArgumentException($"User [{user.FullName}] not found in System");
+                throw new ArgumentException($"TableauUser [{user.FullName}] not found in System");
 
             userprofile.ChangeProfileTo(user);
 
@@ -47,7 +47,7 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Repository
             var userToDelete = GetAll().FirstOrDefault(x => x.Id.ToLower() ==id.ToLower());
 
             if (null == userToDelete)
-                throw new ArgumentException($"User not found in System");
+                throw new ArgumentException($"TableauUser not found in System");
             Delete(userToDelete);
         }
 
@@ -56,7 +56,7 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Repository
             var userprofile = GetAll().FirstOrDefault(x => x.Id.ToLower() == id.ToLower());
 
             if (null == userprofile)
-                throw new ArgumentException($"User not found in System");
+                throw new ArgumentException($"TableauUser not found in System");
 
             userprofile.UserConfirmed = confirmed;
             userprofile.UserType = confirmed == UserConfirmation.Confirmed ? UserType.Normal : UserType.Guest;
@@ -69,7 +69,7 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Repository
             var userprofile = GetAll().FirstOrDefault(x => x.Id.ToLower() == id.ToLower());
 
             if (null == userprofile)
-                throw new ArgumentException($"User not found in System");
+                throw new ArgumentException($"TableauUser not found in System");
 
             userprofile.UserConfirmed = UserConfirmation.Confirmed;
             userprofile.UserType = UserType.Steward;
@@ -81,7 +81,7 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Repository
             var userprofile = GetAll().FirstOrDefault(x => x.Id.ToLower() == id.ToLower());
 
             if (null == userprofile)
-                throw new ArgumentException($"User not found in System");
+                throw new ArgumentException($"TableauUser not found in System");
 
             userprofile.UserConfirmed = UserConfirmation.Confirmed;
             userprofile.UserType = UserType.Normal;

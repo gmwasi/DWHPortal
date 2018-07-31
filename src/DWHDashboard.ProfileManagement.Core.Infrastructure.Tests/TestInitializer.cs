@@ -1,4 +1,4 @@
-﻿using DWHDashboard.DashboardData.Data;
+﻿using System;
 using DWHDashboard.ProfileManagement.Core.Interfaces;
 using DWHDashboard.ProfileManagement.Infrastructure.Data;
 using DWHDashboard.ProfileManagement.Infrastructure.Repository;
@@ -7,11 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
-namespace DWHDashboard.ProfileManagement.Core.Tests
+namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests
 {
     [SetUpFixture]
     public class TestInitializer
     {
+        public static IServiceProvider ServiceProvider;
         [OneTimeSetUp]
         public void Init()
         {
@@ -20,13 +21,20 @@ namespace DWHDashboard.ProfileManagement.Core.Tests
             var serviceProvider = new ServiceCollection()
                 .AddDbContext<DwhDashboardContext>(b => b.UseSqlServer(config["ConnectionStrings:DwhDashboardConnection"]))
                 .AddTransient<DwhDashboardContext>()
-                .AddTransient<DwhDataContext>()
                 .AddTransient<IImpersonatorRepository, ImpersonatorRepository>()
                 .AddTransient<IOrganizationRepository, OrganizationRepository>()
                 .AddTransient<ITabViewRepository, TabViewRepository>()
                 .AddTransient<ITabWorkbookRepository, TabWorkbookRepository>()
                 .AddTransient<ITempOrgRepository, TempOrgRepository>()
-                .AddTransient<IUserRepository, UserRepository>();
+                .AddTransient<IUserRepository, UserRepository>()
+                .BuildServiceProvider();
+
+            ServiceProvider = serviceProvider;
+
+            var dwhDashboardContext = serviceProvider.GetService<DwhDashboardContext>();
+
+            dwhDashboardContext.Database.Migrate();
+            //dwhDashboardContext.EnsureSeeded();
         }
     }
 }

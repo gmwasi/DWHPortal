@@ -56,9 +56,6 @@ namespace DWHDashboard.ProfileManagement.Core.Tests
             {
                 var csv = new CsvReader(reader);
                 csv.Configuration.Delimiter = "|";
-                //csv.Configuration.TrimFields = true;
-                //csv.Configuration.TrimHeaders = true;
-                //csv.Configuration.WillThrowOnMissingField = false;
                 records = csv.GetRecords<ViewConfig>().ToList();
             }
 
