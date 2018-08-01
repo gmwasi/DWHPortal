@@ -105,13 +105,25 @@ namespace DWHDashboard.Web
             services.AddScoped<ILookupService, LookupService>();
             services.AddScoped<ITabViewService, TabViewService>();
 
-            services.AddTransient<IEmailSender, EmailSender>(i =>
+            //Less secure apps must be turned on on google settings
+
+            /*services.AddTransient<IEmailSender, EmailSender>(i =>
                 new EmailSender(
                     Configuration["EmailSettings:Host"],
                     Configuration.GetValue<int>("EmailSettings:Port"),
                     Configuration.GetValue<bool>("EmailSettings:Ssl"),
                     Configuration["EmailSettings:UserName"],
                     Configuration["EmailSettings:Password"]
+                )
+            );*/
+
+            //Authorization code must be obtained from the google developer console
+            services.AddTransient<IEmailSender, SecureGmailSender>(i =>
+                new SecureGmailSender(
+                    Configuration["EmailSettings:Host"],
+                    Configuration.GetValue<int>("EmailSettings:Port"),
+                    Configuration["EmailSettings:UserName"],
+                    Configuration["EmailSettings:AuthorizationCode"]
                 )
             );
 
