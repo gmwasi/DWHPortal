@@ -1,5 +1,10 @@
-﻿using DWHDashboard.ProfileManagement.Core.Model;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using CsvHelper.Configuration;
+using DWHDashboard.ProfileManagement.Core.Model;
 using DWHDashboard.SharedKernel.Data;
+using EFCore.Seeder.Configuration;
+using EFCore.Seeder.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -51,6 +56,26 @@ namespace DWHDashboard.ProfileManagement.Infrastructure.Data
                 .WithOne()
                 .IsRequired()
                 .HasForeignKey(f => new { f.TabViewId });
+        }
+
+        public override void EnsureSeeded()
+        {
+            var csvConfig = new CsvConfiguration
+            {
+                Delimiter = "|",
+                SkipEmptyRecords = true,
+                TrimFields = true,
+                TrimHeaders = true,
+                WillThrowOnMissingField = false
+            };
+
+            SeederConfiguration.ResetConfiguration(csvConfig, null, typeof(DwhDashboardContext).GetTypeInfo().Assembly);
+
+            Impersonators.SeedDbSetIfEmpty($"{nameof(Impersonator)}");
+            Organizations.SeedDbSetIfEmpty($"{nameof(Organization)}");
+            Users.SeedDbSetIfEmpty($"{nameof(User)}");
+            ViewConfigs.SeedDbSetIfEmpty($"{nameof(ViewConfig)}");
+            SaveChanges();
         }
     }
 }

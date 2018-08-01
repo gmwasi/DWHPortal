@@ -52,5 +52,10 @@ namespace DWHDashboard.SharedKernel.Data
                 builder.ToTable("UserToken");
             });
         }
+
+        public virtual void EnsureSeeded()
+        {
+
+        }
     }
 }

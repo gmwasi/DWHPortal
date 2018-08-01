@@ -33,6 +33,7 @@ using System.Text;
 using DWHDashboard.DashboardData.Repository;
 using DWHDashboard.DashboardData.Repository.Implementation;
 using DWHDashboard.ProfileManagement.Core.Services;
+using DWHDashboard.SharedKernel.Data;
 using DWHDashboard.Web.Services;
 
 namespace DWHDashboard.Web
@@ -41,8 +42,6 @@ namespace DWHDashboard.Web
     {
         public static IConfiguration Configuration;
         public static IServiceProvider ServiceProvider;
-        private static string SecretKey = Startup.Configuration["JwtKey"];
-        private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
         public Startup(IHostingEnvironment env)
         {
@@ -110,7 +109,7 @@ namespace DWHDashboard.Web
                 new EmailSender(
                     Configuration["EmailSettings:Host"],
                     Configuration.GetValue<int>("EmailSettings:Port"),
-                    Configuration.GetValue<bool>("EmailSettings:EnableSSL"),
+                    Configuration.GetValue<bool>("EmailSettings:Ssl"),
                     Configuration["EmailSettings:UserName"],
                     Configuration["EmailSettings:Password"]
                 )
@@ -121,11 +120,14 @@ namespace DWHDashboard.Web
             var jwtAppSettingOptions = Configuration.GetSection(nameof(JwtIssuerOptions));
 
             // Configure JwtIssuerOptions
+            string secretKey = Startup.Configuration["JwtKey"];
+            SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey));
+
             services.Configure<JwtIssuerOptions>(options =>
             {
                 options.Issuer = jwtAppSettingOptions[nameof(JwtIssuerOptions.Issuer)];
                 options.Audience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)];
-                options.SigningCredentials = new SigningCredentials(_signingKey, SecurityAlgorithms.HmacSha256);
+                options.SigningCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             });
 
             var tokenValidationParameters = new TokenValidationParameters
@@ -137,7 +139,7 @@ namespace DWHDashboard.Web
                 ValidAudience = jwtAppSettingOptions[nameof(JwtIssuerOptions.Audience)],
 
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = _signingKey,
+                IssuerSigningKey = signingKey,
 
                 RequireExpirationTime = false,
                 ValidateLifetime = true,
@@ -184,7 +186,7 @@ namespace DWHDashboard.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -238,10 +240,31 @@ namespace DWHDashboard.Web
                             }
                         });
                 });
+            Log.Debug(@"initializing Database...");
 
+            EnsureMigrationOfContext<DwhDashboardContext>(serviceProvider);
             Log.Debug(@"initializing Database [Complete]");
 
             Log.Debug("DWH Dashboard started !");
+        }
+
+        public static void EnsureMigrationOfContext<T>(IServiceProvider app) where T : DwhBaseContext
+        {
+            var contextName = typeof(T).Name;
+            Log.Debug($"initializing Database context: {contextName}");
+            var context = app.GetService<T>();
+            try
+            {
+                context.Database.Migrate();
+                context.EnsureSeeded();
+                Log.Debug($"initializing Database context: {contextName} [OK]");
+            }
+            catch (Exception e)
+            {
+                Log.Debug($"initializing Database context: {contextName} Error");
+                Log.Debug($"{e}");
+            }
+
         }
     }
 }

@@ -28,7 +28,8 @@ namespace DWHDashboard.Web.Services
                 Credentials = new NetworkCredential(_userName, _password),
                 EnableSsl = _enableSsl
             };
-            return client.SendMailAsync(new MailMessage(_userName, email, subject, htmlMessage) { IsBodyHtml = true }
+            var fullSubject = $"Data warehouse Access (do not reply) - {subject}";
+            return client.SendMailAsync(new MailMessage(_userName, email, fullSubject, htmlMessage) { IsBodyHtml = true }
             );
         }
     }
