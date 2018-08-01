@@ -169,7 +169,21 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests.Repository
         [TestCase("Charts")]
         public void should_GetAll_Filtered(string display)
         {
-            _repository = new TabViewRepository(new DwhDashboardContext());
+            _tableauWorkbookWithViews = TestHelpers.GetTableauWorkbooks();
+            _tableauViews = TestHelpers.GetTableauViews();
+            _tableauViewConfigs = TestHelpers.GetViewConfigs();
+            _contextOptions = TestDbOptions.GetInMemoryOptions<DwhDashboardContext>();
+            _context = new DwhDashboardContext(_contextOptions);
+
+            TestHelpers.CreateTestData(_context, _tableauViewConfigs);
+            TestHelpers.CreateTestData(_context, _tableauWorkbookWithViews);
+            TestHelpers.CreateTestData(_context, _tableauViews);
+
+            _repository = new TabViewRepository(_context);
+            var updates = _repository.UpdateSections().Result;
+
+            _repository = new TabViewRepository(_context);
+
             var filteredList = _repository.GetViewsFiltered().ToList();
             Assert.IsNotEmpty(filteredList);
             filteredList = filteredList

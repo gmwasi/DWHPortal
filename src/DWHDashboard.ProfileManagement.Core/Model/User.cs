@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
 namespace DWHDashboard.ProfileManagement.Core.Model
 {
-    public class User : IdentityUser
+    public class User : IdentityUser<string>
     {
         public Title Title { get; set; }
         public string FullName { get; set; }
@@ -21,6 +22,17 @@ namespace DWHDashboard.ProfileManagement.Core.Model
         public Guid OrganizationId { get; set; }
         public virtual Organization Organization { get; set; }
 
+        #region Relationships
+        public virtual ICollection<UserToken> UserTokens { get; set; }
+
+        public virtual ICollection<UserRole> Roles { get; set; }
+
+        public virtual ICollection<UserLogin> Logins { get; set; }
+
+        public virtual ICollection<UserClaim> Claims { get; set; }
+
+        #endregion
+        
         [NotMapped]
         public string AuthUserName { get; set; }
 
@@ -89,6 +101,47 @@ namespace DWHDashboard.ProfileManagement.Core.Model
         {
             Id = id;
         }
+    }
+
+    public class Role : IdentityRole<string>
+    {
+        public Role() : base()
+        {
+
+        }
+        public Role(string roleName) : this()
+        {
+            Name = roleName;
+        }
+
+        public virtual ICollection<UserRole> Users { get; set; }
+        public virtual ICollection<RoleClaim> Claims { get; set; }
+    }
+
+    public class RoleClaim : IdentityRoleClaim<string>
+    {
+        public virtual Role Role { get; set; }
+    }
+
+    public class UserClaim : IdentityUserClaim<string>
+    {
+        public virtual User User { get; set; }
+    }
+
+    public class UserLogin : IdentityUserLogin<string>
+    {
+        public virtual User User { get; set; }
+    }
+
+    public class UserRole : IdentityUserRole<string>
+    {
+        public virtual User User { get; set; }
+        public virtual Role Role { get; set; }
+    }
+
+    public class UserToken : IdentityUserToken<string>
+    {
+        public virtual User User { get; set; }
     }
 
     public enum UserType

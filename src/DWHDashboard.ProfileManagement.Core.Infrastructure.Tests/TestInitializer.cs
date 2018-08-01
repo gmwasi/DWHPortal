@@ -21,12 +21,12 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests
             var serviceProvider = new ServiceCollection()
                 .AddDbContext<DwhDashboardContext>(b => b.UseSqlServer(config["ConnectionStrings:DwhDashboardConnection"]))
                 .AddTransient<DwhDashboardContext>()
-                .AddTransient<IImpersonatorRepository, ImpersonatorRepository>()
-                .AddTransient<IOrganizationRepository, OrganizationRepository>()
-                .AddTransient<ITabViewRepository, TabViewRepository>()
-                .AddTransient<ITabWorkbookRepository, TabWorkbookRepository>()
-                .AddTransient<ITempOrgRepository, TempOrgRepository>()
-                .AddTransient<IUserRepository, UserRepository>()
+                .AddScoped<IImpersonatorRepository, ImpersonatorRepository>()
+                .AddScoped<IOrganizationRepository, OrganizationRepository>()
+                .AddScoped<ITabViewRepository, TabViewRepository>()
+                .AddScoped<ITabWorkbookRepository, TabWorkbookRepository>()
+                .AddScoped<ITempOrgRepository, TempOrgRepository>()
+                .AddScoped<IUserRepository, UserRepository>()
                 .BuildServiceProvider();
 
             ServiceProvider = serviceProvider;

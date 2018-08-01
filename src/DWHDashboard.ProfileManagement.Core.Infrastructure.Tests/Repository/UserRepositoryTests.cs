@@ -135,6 +135,7 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests.Repository
         [TearDown]
         public void TearDown()
         {
+            _context.Database.EnsureDeleted();
             _context.Dispose();
             _context = null;
         }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DWHDashboard.SharedKernel.Data
 {
-    public abstract class DwhBaseContext : IdentityDbContext<User>
+    public abstract class DwhBaseContext : IdentityDbContext<User, Role, string, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
         
         protected DwhBaseContext(DbContextOptions options) : base(options)
@@ -17,20 +17,40 @@ namespace DWHDashboard.SharedKernel.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().HasKey(l => l.UserId);
-            modelBuilder.Entity<IdentityRole>().HasKey(r => r.Id);
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasKey(r => new { r.RoleId, r.UserId });
-            modelBuilder.Entity<IdentityUser>().ToTable("Users", "dbo").Property(p => p.Id).HasColumnName("UserId");
-            modelBuilder.Entity<User>().ToTable("Users", "dbo").Property(p => p.Id).HasColumnName("UserId");
-            modelBuilder.Entity<IdentityRole>().ToTable("OrganizationAccess", "dbo");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("UserOrganizationAccess", "dbo");
-            modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("UserClaims", "dbo");
-            modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("UserLogins", "dbo");
-            modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaim");
-            modelBuilder.Entity<IdentityUserToken<int>>().ToTable("UserToken");
-
-            //modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            //modelBuilder.Properties<string>().Configure(p => p.HasMaxLength(150));
+            modelBuilder.Entity<RoleClaim>(builder =>
+            {
+                builder.HasOne(roleClaim => roleClaim.Role).WithMany(role => role.Claims).HasForeignKey(roleClaim => roleClaim.RoleId);
+                builder.ToTable("RoleClaim");
+            });
+            modelBuilder.Entity<Role>(builder =>
+            {
+                builder.ToTable("Role");
+            });
+            modelBuilder.Entity<UserClaim>(builder =>
+            {
+                builder.HasOne(userClaim => userClaim.User).WithMany(user => user.Claims).HasForeignKey(userClaim => userClaim.UserId);
+                builder.ToTable("UserClaim");
+            });
+            modelBuilder.Entity<UserLogin>(builder =>
+            {
+                builder.HasOne(userLogin => userLogin.User).WithMany(user => user.Logins).HasForeignKey(userLogin => userLogin.UserId);
+                builder.ToTable("UserLogin");
+            });
+            modelBuilder.Entity<User>(builder =>
+            {
+                builder.ToTable("User");
+            });
+            modelBuilder.Entity<UserRole>(builder =>
+            {
+                builder.HasOne(userRole => userRole.Role).WithMany(role => role.Users).HasForeignKey(userRole => userRole.RoleId);
+                builder.HasOne(userRole => userRole.User).WithMany(user => user.Roles).HasForeignKey(userRole => userRole.UserId);
+                builder.ToTable("UserRole");
+            });
+            modelBuilder.Entity<UserToken>(builder =>
+            {
+                builder.HasOne(userToken => userToken.User).WithMany(user => user.UserTokens).HasForeignKey(userToken => userToken.UserId);
+                builder.ToTable("UserToken");
+            });
         }
     }
 }

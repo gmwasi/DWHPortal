@@ -79,6 +79,7 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests
             foreach (var user in users)
             {
                 user.UserName = RandomString(7);
+                user.Id = Guid.NewGuid().ToString();
             }
             return users;
         }
@@ -119,6 +120,8 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests
             {
                 var csv = new CsvReader(reader);
                 csv.Configuration.Delimiter = "|";
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.MissingFieldFound = null;
                 records = csv.GetRecords<TableauWorkbook>().ToList();
             }
             return records;
@@ -136,6 +139,8 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests
             {
                 var csv = new CsvReader(reader);
                 csv.Configuration.Delimiter = "|";
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.MissingFieldFound = null;
                 records = csv.GetRecords<TableauView>().ToList();
             }
             return records;
@@ -152,6 +157,8 @@ namespace DWHDashboard.ProfileManagement.Core.Infrastructure.Tests
             {
                 var csv = new CsvReader(reader);
                 csv.Configuration.Delimiter = "|";
+                csv.Configuration.HeaderValidated = null;
+                csv.Configuration.MissingFieldFound = null;
                 records = csv.GetRecords<ViewConfig>().ToList();
             }
             return records;
