@@ -30,6 +30,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using DWHDashboard.DashboardData.Repository;
+using DWHDashboard.DashboardData.Repository.Implementation;
+using DWHDashboard.ProfileManagement.Core.Services;
+using DWHDashboard.Web.Services;
 
 namespace DWHDashboard.Web
 {
@@ -37,7 +41,7 @@ namespace DWHDashboard.Web
     {
         public static IConfiguration Configuration;
         public static IServiceProvider ServiceProvider;
-        private const string SecretKey = "iNivDmHLpUA223sqsfhqGbMRdRj1PVkH"; // todo: get this from somewhere secure
+        private static string SecretKey = Startup.Configuration["JwtKey"];
         private readonly SymmetricSecurityKey _signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 
         public Startup(IHostingEnvironment env)
@@ -81,15 +85,36 @@ namespace DWHDashboard.Web
             services.AddDbContext<DwhDataContext>(b => b.UseSqlServer(dataConnectionString, x => x.MigrationsAssembly(typeof(DwhDataContext).GetTypeInfo().Assembly.GetName().Name)));
             services.AddTransient<DwhDashboardContext>();
             services.AddTransient<DwhDataContext>();
+
             services.AddScoped<IImpersonatorRepository, ImpersonatorRepository>();
             services.AddScoped<IOrganizationRepository, OrganizationRepository>();
             services.AddScoped<ITabViewRepository, TabViewRepository>();
             services.AddScoped<ITabWorkbookRepository, TabWorkbookRepository>();
             services.AddScoped<ITempOrgRepository, TempOrgRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IViralLoadMatrixRepository, ViralLoadMatrixRepository>();
+            services.AddScoped<IQueryRepository, QueryRepository>();
+            services.AddScoped<IPartnerMechanismRepository, PartnerMechanismRepository>();
+            services.AddScoped<IFacilityRepository, FacilityRepository>();
+            services.AddScoped<IDatimNewlyEnrolledRepository, DatimNewlyEnrolledRepository>();
+            services.AddScoped<IDatimNewlyEnrolledBaselineCd4Repository, DatimNewlyEnrolledBaselineCd4Repository>();
 
             services.AddSingleton<IJwtFactory, JwtFactory>();
             services.TryAddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<ILookupService, LookupService>();
+            services.AddScoped<ITabViewService, TabViewService>();
+
+            services.AddTransient<IEmailSender, EmailSender>(i =>
+                new EmailSender(
+                    Configuration["EmailSettings:Host"],
+                    Configuration.GetValue<int>("EmailSettings:Port"),
+                    Configuration.GetValue<bool>("EmailSettings:EnableSSL"),
+                    Configuration["EmailSettings:UserName"],
+                    Configuration["EmailSettings:Password"]
+                )
+            );
 
             // jwt wire up
             // Get options from app settings
@@ -154,6 +179,8 @@ namespace DWHDashboard.Web
             /*var container = new Container();
             container.Populate(services);
             ServiceProvider = container.GetInstance<IServiceProvider>();*/
+
+            ServiceProvider = services.BuildServiceProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
