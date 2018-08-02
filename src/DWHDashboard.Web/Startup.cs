@@ -104,7 +104,7 @@ namespace DWHDashboard.Web
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<ILookupService, LookupService>();
             services.AddScoped<ITabViewService, TabViewService>();
-
+            services.AddScoped<IAdhocService, AdhocService>();
             //Less secure apps must be turned on on google settings
 
             services.AddTransient<IEmailSender, EmailSender>(i =>

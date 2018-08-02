@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using DWHDashboard.ProfileManagement.Core.Interfaces;
@@ -6,6 +7,7 @@ using DWHDashboard.ProfileManagement.Core.Model;
 using DWHDashboard.Web.Helpers;
 using DWHDashboard.Web.Services;
 using DWHDashboard.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
@@ -131,12 +133,12 @@ namespace DWHDashboard.Web.Controllers
                 return BadRequest();
             }
 
-            //todo complete confirm user functionality
-            //var result = await _userManager.ConfirmUserAsync(userId, code);
-            bool succeeded = true;
-            if (!succeeded)
+            var user = await _userManager.FindByIdAsync(userId);
+            //todo test
+            var result = await ConfirmUserAsync(user, code);
+            if (!result.Succeeded)
             {
-                return StatusCode(500);
+                return StatusCode(500, "User could not be confirmed");
             }
             return Ok();
         }
@@ -154,13 +156,10 @@ namespace DWHDashboard.Web.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return Ok();
                 }
-
-
                 // Send reset password email
                 var callBackUrl = SendEmailResetPasswordAsync(user, "Reset your password");
                 return Ok();
             }
-
             // If we got this far, something failed, redisplay form
             return BadRequest();
         }
@@ -188,6 +187,26 @@ namespace DWHDashboard.Web.Controllers
             }
             AddErrors(result);
             return StatusCode(500, ModelState);
+        }
+        [HttpGet, Authorize]
+        public async Task<ActionResult> ResendEmails()
+        {
+            var users = _userRepository.GetAllUsers().Where(n => n.EmailConfirmed == false);
+            foreach (var user in users)
+            {
+                try
+                {
+                    // Send an email with this link
+                    string callbackUrl = await SendEmailConfirmationTokenAsync(user, "Confirm your account");
+                    TempData["ViewBagLink"] = callbackUrl;
+                }
+                catch (Exception e)
+                {
+                    Log.Error(e.ToString());
+                    return StatusCode(500,e.ToString());
+                }
+            }
+            return Ok();
         }
 
 
@@ -244,8 +263,11 @@ namespace DWHDashboard.Web.Controllers
             if (stewards.Any() == false)
                 stewards = _userRepository.GetAll().Where(n => n.UserType == UserType.Admin).ToList();
             var organization = _organizationRepository.FindByKey(user.OrganizationId);
-            //todo configure call back url for steward email
-            var callbackUrl = "";
+
+            //Generate email token
+            string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+            var callbackUrl = baseUrl + Url.Action("ConfirmUser", "Account", new { userId = user.Id, code = token });
 
             foreach (var steward in stewards)
             {
@@ -257,7 +279,7 @@ namespace DWHDashboard.Web.Controllers
                                  "<p><em>Request date and time: " + DateTime.Now + " </em></p>\r\n" +
                                  "<p><em>Reason for access: " + user.ReasonForAccessing + " </em></p>\r\n" +
                                  "<p>The above mentioned has created an account on the Integrated Data Warehouse portal and is requesting affiliation to <strong>" + organization.Name + "\'s</strong> data and access previleges.</p>\r\n" +
-                                 "<p>To confirm this affiliation and grant access to this request please log into the National Data Warehouse portal <a href=\"" + callbackUrl + "\">here</a> and grant access.</p>\r\n" +
+                                 "<p>To confirm this affiliation and grant access to this request, click <a href=\"" + callbackUrl + "\">here</a> or log into the National Data Warehouse portal and grant access in the users page.</p>\r\n" +
                                  "<p>If the above individual is not affiliated to your organization you can choose to ignore this message and do nothing.</p>\r\n" +
                                  "<p>If you have any questions/concerns please contact Administrator on Mwenda.Gitonga@thepalladiumgroup.com</p>\r\n<p>&nbsp;</p>\r\n" +
                                  "<p>Regards,&nbsp;</p>\r\n" +
@@ -284,6 +306,25 @@ namespace DWHDashboard.Web.Controllers
 
             await _emailSender.SendEmailAsync(user.Email, subject, message);
             return callbackUrl;
+        }
+
+        public async Task<IdentityResult> ConfirmUserAsync(User user, string token)
+        {
+            if (user == null)
+                throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, "UserIdNotFound"));
+            if (!await _userManager.VerifyUserTokenAsync(user, _userManager.Options.Tokens.EmailConfirmationTokenProvider, "EmailConfirmation", token))
+                return IdentityResult.Failed(new IdentityError(){Code = "500", Description = "Invalid Token"});
+            await SetEmailConfirmedAsync(user, UserConfirmation.Confirmed);
+            return await _userManager.UpdateAsync(user);
+        }
+
+        public Task SetEmailConfirmedAsync(User user, UserConfirmation confirmed)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+            user.UserConfirmed = confirmed;
+            user.UserType = UserType.Normal;
+            return Task.FromResult(0);
         }
 
         #endregion Helpers
