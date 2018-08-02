@@ -34,6 +34,8 @@ using DWHDashboard.DashboardData.Repository;
 using DWHDashboard.DashboardData.Repository.Implementation;
 using DWHDashboard.ProfileManagement.Core.Services;
 using DWHDashboard.SharedKernel.Data;
+using DWHDashboard.SharedKernel.Interfaces;
+using DWHDashboard.SharedKernel.Model;
 using DWHDashboard.Web.Services;
 
 namespace DWHDashboard.Web
@@ -105,8 +107,24 @@ namespace DWHDashboard.Web
             services.AddScoped<ILookupService, LookupService>();
             services.AddScoped<ITabViewService, TabViewService>();
             services.AddScoped<IAdhocService, AdhocService>();
-            //Less secure apps must be turned on on google settings
+            services.AddScoped<IEntityLookupService, EntityLookupService>();
 
+            services.AddScoped<IApplicationSettings, ApplicationSettings>(a =>
+                new ApplicationSettings(
+                    Configuration["ApplicationSettings:Server"],
+                    Configuration["ApplicationSettings:PublicUser"],
+                    Configuration["ApplicationSettings:PublicPassword"],
+                    Configuration["ApplicationSettings:ServerAPI"],
+                    Configuration["ApplicationSettings:ServerJS"],
+                    Configuration["ApplicationSettings:TicketServer"],
+                    Configuration["ApplicationSettings:PublicSite"],
+                    Configuration["ApplicationSettings:APIAdminUser"],
+                    Configuration["ApplicationSettings:APIAdminPassword"]
+
+                    )
+            );
+
+            //Less secure apps must be turned on on google settings
             services.AddTransient<IEmailSender, EmailSender>(i =>
                 new EmailSender(
                     Configuration["EmailSettings:Host"],
