@@ -5,6 +5,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Seed\Impersonator.csv" />
+    <None Remove="Seed\Organization.csv" />
+    <None Remove="Seed\OrganizationFinal.csv" />
+    <None Remove="Seed\User.csv" />
+    <None Remove="Seed\ViewConfig.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Seed\Impersonator.csv" />
+    <EmbeddedResource Include="Seed\Organization.csv" />
+    <EmbeddedResource Include="Seed\OrganizationFinal.csv" />
+    <EmbeddedResource Include="Seed\User.csv" />
+    <EmbeddedResource Include="Seed\ViewConfig.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.5" />
     <PackageReference Include="EFCore.Seeder" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />

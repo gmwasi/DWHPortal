@@ -107,7 +107,7 @@ namespace DWHDashboard.Web
 
             //Less secure apps must be turned on on google settings
 
-            /*services.AddTransient<IEmailSender, EmailSender>(i =>
+            services.AddTransient<IEmailSender, EmailSender>(i =>
                 new EmailSender(
                     Configuration["EmailSettings:Host"],
                     Configuration.GetValue<int>("EmailSettings:Port"),
@@ -115,17 +115,17 @@ namespace DWHDashboard.Web
                     Configuration["EmailSettings:UserName"],
                     Configuration["EmailSettings:Password"]
                 )
-            );*/
+            );
 
             //Authorization code must be obtained from the google developer console
-            services.AddTransient<IEmailSender, SecureGmailSender>(i =>
+            /*services.AddTransient<IEmailSender, SecureGmailSender>(i =>
                 new SecureGmailSender(
                     Configuration["EmailSettings:Host"],
                     Configuration.GetValue<int>("EmailSettings:Port"),
                     Configuration["EmailSettings:UserName"],
                     Configuration["EmailSettings:AuthorizationCode"]
                 )
-            );
+            );*/
 
             // jwt wire up
             // Get options from app settings

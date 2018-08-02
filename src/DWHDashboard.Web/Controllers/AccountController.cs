@@ -103,13 +103,23 @@ namespace DWHDashboard.Web.Controllers
                 return BadRequest();
             }
 
-            var user = _userRepository.FindByKey(Guid.Parse(userId));
-            var result = await _userManager.ConfirmEmailAsync(user, code);
-            if (!result.Succeeded)
+            try
             {
-                return StatusCode(500);
+                var user = await _userManager.FindByIdAsync(userId);
+                var result = await _userManager.ConfirmEmailAsync(user, code);
+                if (!result.Succeeded)
+                {
+                    return StatusCode(500);
+                }
+                return Ok();
             }
-            return Ok();
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Log.Error(e.ToString());
+                return StatusCode(500, e.Message);
+            }
+            
         }
 
         // GET: /Account/ConfirmUser
@@ -131,21 +141,78 @@ namespace DWHDashboard.Web.Controllers
             return Ok();
         }
 
+        // POST: /Account/ForgotPassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return Ok();
+                }
+
+
+                // Send reset password email
+                var callBackUrl = SendEmailResetPasswordAsync(user, "Reset your password");
+                return Ok();
+            }
+
+            // If we got this far, something failed, redisplay form
+            return BadRequest();
+        }
+
+        // POST: /Account/ResetPassword
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(500, "Model state invalid");
+            }
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal that the user does not exist
+                return Ok();
+            }
+
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            AddErrors(result);
+            return StatusCode(500, ModelState);
+        }
+
 
         #region Helpers
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.ToString());
+            }
+        }
+
         public async Task<string> SendEmailConfirmationTokenAsync(User user, string subject)
         {
             //Generate email token
             string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             var organization = _organizationRepository.FindByKey(user.OrganizationId);
 
-            //todo generate email call back urls
-            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = token });
-            //var loginUrl = Url.Action("Login", "Account", "", protocol: Request.Url.Scheme);
-            var loginUrl = "";
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+            var callbackUrl = baseUrl + Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = token });
+            var loginUrl = baseUrl;
 
             //todo include datawarehouse image in email sent
-            var emailImageUrl = base.File("Images\\DWHEmailImg.png", "image/jpeg"); ;//Url.Action("DWHEmailImg.png", "Images", "", protocol: Request.Url.Scheme);
+            var emailImageUrl = File("Images\\DWHEmailImg.png", "image/jpeg"); ;//Url.Action("DWHEmailImg.png", "Images", "", protocol: Request.Url.Scheme);
 
             string message = "<p>Dear&nbsp;<strong>" + user.FullName + "</strong>,</p>\r\n" +
                              "<p>Welcome to the NASCOP National EMR Data Warehouse.</p>\r\n" +
@@ -198,6 +265,24 @@ namespace DWHDashboard.Web.Controllers
                                  "<p><img src=\"..\\Images\\DWHEmailImg.png\" alt=\"Integrated data warehouse\"></p>";
                 await _emailSender.SendEmailAsync(steward.Email, subject, message);
             }
+            return callbackUrl;
+        }
+
+        public async Task<string> SendEmailResetPasswordAsync(User user, string subject)
+        {
+            //Generate reset password token
+            string token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var baseUrl = $"{Request.Scheme}://{Request.Host}{Request.PathBase}";
+            var callbackUrl = baseUrl + Url.Action("ResetPassword", "Account", new { userId = user.Id, code = token });
+
+            string message = "<p>Dear&nbsp;<strong>" + user.FullName + "</strong>,</p>\r\n" +
+                             "\r\n" +
+                             "You can reset your password by clicking <a href=\"" + callbackUrl + "\">this link</a>" +
+                             "<p>If you did not request to rest your password kindly ignore this message.\r\n" +
+                             "<p>Regards,&nbsp;</p>\r\n" +
+                             "<p>National EMR Data Warehouse Access Team</p>";
+
+            await _emailSender.SendEmailAsync(user.Email, subject, message);
             return callbackUrl;
         }
 
